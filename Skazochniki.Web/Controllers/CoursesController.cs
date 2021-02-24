@@ -15,7 +15,7 @@ namespace Skazochniki.Web.Controllers
         private readonly ApplicationDbContext _context;
 
         public CoursesController(ApplicationDbContext context)
-        { 
+        {
             _context = context;
         }
 
