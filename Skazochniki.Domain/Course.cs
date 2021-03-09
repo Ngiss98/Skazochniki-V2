@@ -29,6 +29,12 @@ namespace Skazochniki.Models
         // Описание курса конец //
 
         // Функционал класса начало //
+        public void CreateCourse(int price, string name)
+        {
+            Price = price;
+            Name = name;
+        }
+
         public void UpdateCourse(int price, string name)
         {
             Price = price;

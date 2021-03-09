@@ -10,23 +10,22 @@ using Skazochniki.Web.Data;
 
 namespace Skazochniki.Web.Controllers
 {
-    public class CoursesController : Controller
+    public class ImagesController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public CoursesController(ApplicationDbContext context)
+        public ImagesController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Courses
+        // GET: Images
         public async Task<IActionResult> Index()
         {
-            var courses = _context.Course.ToList();
-            return View(courses);
+            return View(await _context.Images.ToListAsync());
         }
 
-        // GET: Courses/Details/5
+        // GET: Images/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -34,39 +33,39 @@ namespace Skazochniki.Web.Controllers
                 return NotFound();
             }
 
-            var course = await _context.Course
+            var images = await _context.Images
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (course == null)
+            if (images == null)
             {
                 return NotFound();
             }
 
-            return View(course);
+            return View(images);
         }
 
-        // GET: Courses/Create
+        // GET: Images/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Courses/Create
+        // POST: Images/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Price")] Course course)
+        public async Task<IActionResult> Create([Bind("Id,Img_path")] Images images)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(course);
+                _context.Add(images);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(course);
+            return View(images);
         }
 
-        // GET: Courses/Edit/5
+        // GET: Images/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -74,22 +73,22 @@ namespace Skazochniki.Web.Controllers
                 return NotFound();
             }
 
-            var course = await _context.Course.FindAsync(id);
-            if (course == null)
+            var images = await _context.Images.FindAsync(id);
+            if (images == null)
             {
                 return NotFound();
             }
-            return View(course);
+            return View(images);
         }
 
-        // POST: Courses/Edit/5
+        // POST: Images/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Price")] Course course)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Img_path")] Images images)
         {
-            if (id != course.Id)
+            if (id != images.Id)
             {
                 return NotFound();
             }
@@ -98,12 +97,12 @@ namespace Skazochniki.Web.Controllers
             {
                 try
                 {
-                    _context.Update(course);
+                    _context.Update(images);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CourseExists(course.Id))
+                    if (!ImagesExists(images.Id))
                     {
                         return NotFound();
                     }
@@ -114,10 +113,10 @@ namespace Skazochniki.Web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(course);
+            return View(images);
         }
 
-        // GET: Courses/Delete/5
+        // GET: Images/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -125,30 +124,30 @@ namespace Skazochniki.Web.Controllers
                 return NotFound();
             }
 
-            var course = await _context.Course
+            var images = await _context.Images
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (course == null)
+            if (images == null)
             {
                 return NotFound();
             }
 
-            return View(course);
+            return View(images);
         }
 
-        // POST: Courses/Delete/5
+        // POST: Images/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var course = await _context.Course.FindAsync(id);
-            _context.Course.Remove(course);
+            var images = await _context.Images.FindAsync(id);
+            _context.Images.Remove(images);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool CourseExists(int id)
+        private bool ImagesExists(int id)
         {
-            return _context.Course.Any(e => e.Id == id);
+            return _context.Images.Any(e => e.Id == id);
         }
     }
 }
